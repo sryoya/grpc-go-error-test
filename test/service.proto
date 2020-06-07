@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package test;
+
+service Test {
+    rpc Handle(Req) returns (Res) {}
+  }
+  
+  message Req {
+  }
+  
+  message Res {}
+
+
+
