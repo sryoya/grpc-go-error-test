@@ -24,15 +24,16 @@ func main() {
 	// Contact the server and print out its response.
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.Handle(ctx, &pb.Req{})
+	_, err = c.Handle(ctx, &pb.Req{})
 	if err != nil {
+		log.Printf("error was found: %v", err)
+		// should not be catched
 		if errors.Is(err, pb.CustomErr) {
-			log.Printf("handled expected error")
-			return
+			log.Printf("error was catched by Error.Is()")
 		}
-
-		log.Fatalf("unexpected error: %+v", err)
+		// should be catched
+		if errors.As(err, &pb.CustomErr) {
+			log.Printf("handled expected error by Error.As()")
+		}
 	}
-	log.Printf("Result: %v", r)
-
 }
